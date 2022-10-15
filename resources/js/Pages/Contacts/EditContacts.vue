@@ -7,8 +7,11 @@
             </h2>
         </template>
 
-        <h1>Aqui van los contactos</h1>
+        <h1>Aqui se editan los contactos</h1>
 
+        <pre>
+            {{ contact }}
+        </pre>
 
     </AppLayout>
 </template>
@@ -22,6 +25,12 @@
             AppLayout,
         },
 
+        props: {
+            contact: {
+                type: Object,
+                reuired: true,
+            },
+        }
     }
 </script>
 

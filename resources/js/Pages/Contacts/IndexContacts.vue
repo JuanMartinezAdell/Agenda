@@ -9,6 +9,10 @@
 
         <h1>Aqui van los contactos</h1>
 
+        <pre>
+            {{ contacts }}
+        </pre>
+
     </AppLayout>
 </template>
 
@@ -21,6 +25,12 @@
             AppLayout,
         },
 
+        props: {
+            contacts: {
+                type: Array,
+                reuired: true,
+            },
+        }
     }
 </script>
 

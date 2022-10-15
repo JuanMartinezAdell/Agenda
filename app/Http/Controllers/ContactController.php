@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
-
+use GuzzleHttp\Middleware;
 use Inertia\Inertia;
 
 class ContactController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Contacts/IndexContacts');
+        $contacts = Contact::all();
+
+        return Inertia::render('Contacts/IndexContacts', compact('contacts'));
     }
 
     /**
@@ -27,6 +34,8 @@ class ContactController extends Controller
      */
     public function create()
     {
+        $contacts = Contact::all();
+
         return Inertia::render('Contacts/CreateContacts');
     }
 
@@ -60,7 +69,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
-        return Inertia::render('Contacts/EditContacts');
+        return Inertia::render('Contacts/EditContacts', compact('contact'));
     }
 
     /**
