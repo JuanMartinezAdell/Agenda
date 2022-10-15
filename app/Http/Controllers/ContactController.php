@@ -6,6 +6,8 @@ use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
 
+use Inertia\Inertia;
+
 class ContactController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Contacts/IndexContacts');
     }
 
     /**
@@ -25,7 +27,7 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Contacts/CreateContacts');
     }
 
     /**
@@ -58,7 +60,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
-        //
+        return Inertia::render('Contacts/EditContacts');
     }
 
     /**

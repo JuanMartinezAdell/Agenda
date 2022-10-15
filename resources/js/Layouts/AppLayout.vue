@@ -8,13 +8,10 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-
 defineProps({
     title: String,
 });
-
 const showingNavigationDropdown = ref(false);
-
 const switchToTeam = (team) => {
     Inertia.put(route('current-team.update'), {
         team_id: team.id,
@@ -22,7 +19,6 @@ const switchToTeam = (team) => {
         preserveState: false,
     });
 };
-
 const logout = () => {
     Inertia.post(route('logout'));
 };
@@ -50,7 +46,11 @@ const logout = () => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Home
+                                </NavLink>
+
+                                <NavLink :href="route('contacts.index')" :active="route().current('contacts.*')">
+                                    Contactos
                                 </NavLink>
                             </div>
                         </div>
@@ -74,53 +74,6 @@ const logout = () => {
                                                 </svg>
                                             </button>
                                         </span>
-                                    </template>
-
-                                    <template #content>
-                                        <div class="w-60">
-                                            <!-- Team Management -->
-                                            <template v-if="$page.props.jetstream.hasTeamFeatures">
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Manage Team
-                                                </div>
-
-                                                <!-- Team Settings -->
-                                                <DropdownLink :href="route('teams.show', $page.props.user.current_team)">
-                                                    Team Settings
-                                                </DropdownLink>
-
-                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
-                                                    Create New Team
-                                                </DropdownLink>
-
-                                                <div class="border-t border-gray-100" />
-
-                                                <!-- Team Switcher -->
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Switch Teams
-                                                </div>
-
-                                                <template v-for="team in $page.props.user.all_teams" :key="team.id">
-                                                    <form @submit.prevent="switchToTeam(team)">
-                                                        <DropdownLink as="button">
-                                                            <div class="flex items-center">
-                                                                <svg
-                                                                    v-if="team.id == $page.props.user.current_team_id"
-                                                                    class="mr-2 h-5 w-5 text-green-400"
-                                                                    fill="none"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    stroke="currentColor"
-                                                                    viewBox="0 0 24 24"
-                                                                ><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                                <div>{{ team.name }}</div>
-                                                            </div>
-                                                        </DropdownLink>
-                                                    </form>
-                                                </template>
-                                            </template>
-                                        </div>
                                     </template>
                                 </Dropdown>
                             </div>
@@ -211,6 +164,9 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('contacts.index')" :active="route().current('contacts.*')">
+                            Contactos
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -245,51 +201,6 @@ const logout = () => {
                                     Log Out
                                 </ResponsiveNavLink>
                             </form>
-
-                            <!-- Team Management -->
-                            <template v-if="$page.props.jetstream.hasTeamFeatures">
-                                <div class="border-t border-gray-200" />
-
-                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                    Manage Team
-                                </div>
-
-                                <!-- Team Settings -->
-                                <ResponsiveNavLink :href="route('teams.show', $page.props.user.current_team)" :active="route().current('teams.show')">
-                                    Team Settings
-                                </ResponsiveNavLink>
-
-                                <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')">
-                                    Create New Team
-                                </ResponsiveNavLink>
-
-                                <div class="border-t border-gray-200" />
-
-                                <!-- Team Switcher -->
-                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                    Switch Teams
-                                </div>
-
-                                <template v-for="team in $page.props.user.all_teams" :key="team.id">
-                                    <form @submit.prevent="switchToTeam(team)">
-                                        <ResponsiveNavLink as="button">
-                                            <div class="flex items-center">
-                                                <svg
-                                                    v-if="team.id == $page.props.user.current_team_id"
-                                                    class="mr-2 h-5 w-5 text-green-400"
-                                                    fill="none"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                ><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                <div>{{ team.name }}</div>
-                                            </div>
-                                        </ResponsiveNavLink>
-                                    </form>
-                                </template>
-                            </template>
                         </div>
                     </div>
                 </div>
