@@ -8,6 +8,8 @@ use App\Models\Contact;
 use GuzzleHttp\Middleware;
 use Inertia\Inertia;
 
+use Illuminate\Http\Request;
+
 class ContactController extends Controller
 {
 
@@ -20,11 +22,20 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contacts = Contact::all();
 
-        return Inertia::render('Contacts/IndexContacts', compact('contacts'));
+        $filters = $request->all('search');
+
+        //return $filters;
+
+        $contacts = Contact::with(['organization', 'position', 'service', 'location'])
+            ->filter($filters)
+            ->paginate();
+
+        //return $contacts;
+
+        return Inertia::render('Contacts/IndexContacts', compact('contacts', 'filters'));
     }
 
     /**
