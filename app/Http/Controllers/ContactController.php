@@ -31,6 +31,7 @@ class ContactController extends Controller
 
         $contacts = Contact::with(['organization', 'position', 'service', 'location'])
             ->filter($filters)
+            ->latest('id')
             ->paginate();
 
         //return $contacts;
@@ -47,7 +48,14 @@ class ContactController extends Controller
     {
         $contacts = Contact::all();
 
-        return Inertia::render('Contacts/CreateContacts');
+        $organizations = \App\Models\Organization::all();
+        $positions = \App\Models\Position::all();
+        $services = \App\Models\Service::all();
+        $locations = \App\Models\Location::all();
+
+        return Inertia::render('Contacts/CreateContacts', compact('organizations', 'positions', 'services', 'locations'));
+
+        //return Inertia::render('Contacts/CreateContacts');
     }
 
     /**
@@ -56,9 +64,27 @@ class ContactController extends Controller
      * @param  \App\Http\Requests\StoreContactRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreContactRequest $request)
+    public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'organization_id' => 'required',
+            'position_id' => 'required',
+            'service_id' => 'required',
+            'location_id' => 'required',
+            'phone' => 'required',
+            'short_phone' => 'required',
+            'phone_code' => 'required',
+            'email' => 'required',
+            'alias' => 'required',
+        ]);
+
+        return $request->all();
+        $contact = Contact::create($data);
+
+        return redirect()->route('contacts.edit', $contact);
     }
 
     /**
